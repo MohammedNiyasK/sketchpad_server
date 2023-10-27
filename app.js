@@ -6,13 +6,18 @@ const cors = require("cors");
 const app = express();
 const httpServer = createServer(app);
 
-const url = app.settings.env === 'development'
+const url =
+  app.settings.env === "development"
     ? "http://localhost:5173"
     : "https://sketchpad-ruby.vercel.app";
 
-    console.log(url)
+console.log(url);
 
-    app.use(cors({ origin: ['http://localhost:5173', 'https://sketchpad-ruby.vercel.app'] }));
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://sketchpad-ruby.vercel.app"],
+  })
+);
 const io = new Server(httpServer, {
   cors: {
     origin: url,
@@ -31,8 +36,11 @@ io.on("connection", (socket) => {
   });
 
   socket.on("changeConfig", (arg) => {
-    console.log(arg);
     socket.broadcast.emit("changeConfig", arg);
+  });
+
+  socket.on("menuItem", (arg) => {
+    socket.broadcast.emit("menuItem", arg);
   });
 });
 
