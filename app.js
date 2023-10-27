@@ -10,7 +10,9 @@ const url = app.settings.env === 'development'
     ? "http://localhost:5173"
     : "https://sketchpad-ruby.vercel.app/";
 
-app.use(cors({origin: url}));
+    console.log(url)
+
+    app.use(cors({ origin: ['http://localhost:5173', 'https://sketchpad-ruby.vercel.app/'] }));
 const io = new Server(httpServer, {
   cors: {
     origin: url,
