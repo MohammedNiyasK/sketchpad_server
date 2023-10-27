@@ -6,10 +6,14 @@ const cors = require("cors");
 const app = express();
 const httpServer = createServer(app);
 
-app.use(cors());
+const url = app.settings.env === 'development'
+    ? "http://localhost:5173"
+    : "https://sketchpad-ruby.vercel.app/";
+
+app.use(cors({origin: url}));
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: url,
   },
 });
 
